@@ -1,0 +1,8 @@
+<uwsgi>
+    <socket>/tmp/pi_server.sock</socket>
+    <pythonpath>/home/pi/work/pi_server/src</pythonpath>
+    <module>pi_server.main:app</module>
+    <plugin>python27</plugin>
+    <virtualenv>/home/pi/work/pi_server/.venv_pi_server</virtualenv>
+    <chdir>/home/pi/work/pi_server/src/pi_server</chdir>
+</uwsgi>

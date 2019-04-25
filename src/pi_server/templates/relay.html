@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block head %}
+	{{ super() }}
+	{% for pin in pins %}
+		<script>
+			function onClick{{ pin.number }}() {
+				var button = $('#button{{ pin.number }}')[0]
+				var value = 0;
+				if ( button.value == 'Включить' )
+					value = 1;
+				$.post(
+					'{{ url_for('relay') }}',
+					{
+						number: {{ pin.number }},
+						value: value,
+					},
+					onSuccess{{ pin.number }}
+				);
+			}
+			function onSuccess{{ pin.number }}(value) {
+				var button = $('#button{{ pin.number }}')[0]
+				if ( value == '0' )
+					button.value = 'Включить'
+				else
+					button.value = 'Выключить'
+			}
+		</script>
+	{% endfor %}
+{% endblock %}
+
+{% block user_content %}
+	{{ super() }}
+	{% for pin in pins %}
+		<input
+				type="button" id="button{{ pin.number }}" onclick="onClick{{ pin.number }}()"
+				value="{% if pin.value == 0 %}Включить{% else %}Выключить{% endif %}" />
+	{% endfor %}
+{% endblock %}
+

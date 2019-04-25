@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block user_content %}
+	{{ super() }}
+	<a href="{{ url_for('relay') }}">Реле</a><br>
+	<a href="{{ url_for('sensors') }}">Датчики</a><br>
+{% endblock %}
+
+{% block content %}
+	{{ super() }}
+	{% for station in radio_stations %}
+		<table>
+			<tr>
+				<td colspan="2">
+					<audio controls="controls" preload="none">
+						<source src="{{ station.listenurl }}" type="{{ station.server_type }}" />
+					</audio>
+				</td>
+			</tr>
+			<tr><td>Название</td><td>{{ station.server_name }}</td></tr>
+			<tr><td>Описание</td><td>{{ station.server_description }}</td></tr>
+			<tr><td>Жанр</td><td>{{ station.genre }}</td></tr>
+			<tr><td>Слушатели</td><td>{{ station.listener_peak }}</td></tr>
+		</table>
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" href="/static/chartist/chartist.min.css">
+{% endblock %}
+
+{% block user_content %}
+	{{ super() }}
+	{% for sensor in sensors %}
+		{{ sensor.name }}: {{ sensor.value }}{{ sensor.measure }} {{ sensor.chart_view }}
+		<a href="{{ sensor.chart_url }}">График</a><br>
+	{% endfor %}
+{% endblock %}

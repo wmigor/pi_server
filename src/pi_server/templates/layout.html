@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+	<head>
+		{% block head %}
+			<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+			<script src="/static/jquery.js"></script>
+			<title>{% block title %}{% endblock %}</title>
+		{% endblock %}
+	</head>
+	<body>
+		{% if user.is_anonymous %}
+			<div id="anonymous_content">
+				<a href="{{ url_for('login') }}">Войти</a>
+				{% block anonymous_content %}{% endblock %}
+			</div>
+		{% else %}
+			<div id="user_content">
+				Вы вошли как {{ user.name }}
+				<a href="{{ url_for('register') }}">Добавить пользователя</a>
+				<a href="{{ url_for('logout') }}">Выйти</a><br>
+				{% block user_content %}{% endblock %}
+			</div>
+		{% endif %}
+		<div id="content">
+			{% block content %}{% endblock %}
+		</div>
+	 </body>
+</html>

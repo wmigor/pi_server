@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block head %}
+	{{ super() }}
+	<script src="/static/moment.js"></script>
+	<script src="/static/Chart.min.js"></script>
+{% endblock %}
+
+{% block user_content %}
+	{{ super() }}
+	<h3>{{ name }}</h3>
+	<div style="width:75%;">
+		<canvas id="canvas"></canvas>
+	</div>
+	<script>
+		var config = {
+			type: 'line',
+			data: {
+				labels: [
+					{% for item in items %}
+						moment(new Date(
+							{{ item.date_time.year }}, {{ item.date_time.month }}, {{ item.date_time.day }},
+							{{ item.date_time.hour }}, {{ item.date_time.minute }}
+						)).format('YYYY-MM-D HH:mm'),
+					{% endfor %}
+				],
+				datasets: [{
+					label: '{{ name }}',
+					backgroundColor: 'rgb(255, 99, 132)',
+					borderColor: 'rgb(255, 99, 132)',
+					data: [
+						{% for item in items %}
+							{{ item.value }},
+						{% endfor %}
+					],
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: ''
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Время'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: '{{ name }}'
+						}
+					}]
+				}
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+		};
+
+	</script>
+{% endblock %}

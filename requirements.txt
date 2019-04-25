@@ -1,0 +1,9 @@
+flask
+flask-login
+requests
+RPi.GPIO
+redis
+peewee
+flask-peewee
+python-telegram-bot
+PySocks
